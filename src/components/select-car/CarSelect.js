@@ -6,7 +6,7 @@ class SelectCar extends Component {
 
     render(){
         
-        const {value} = this.props
+        const {value, selectCar} = this.props
         return(
             <div>
                 <Select placeholder='Select' options ={carsList.makes.map(car => ({
@@ -14,7 +14,8 @@ class SelectCar extends Component {
                                                                 value: car.displayName,
                                                                 text: car.displayName
                                                             }))}
-                                                            text={value}/>
+                                                            text={value}
+                                                            onChange={selectCar}/>
             </div>
         )
     }

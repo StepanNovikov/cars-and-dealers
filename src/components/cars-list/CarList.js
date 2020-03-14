@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { Table } from 'semantic-ui-react'
 import "./CarList.css"
 
@@ -9,7 +9,7 @@ const CarList = ({country, image, link, displayName}) => {
             <Table.Row>
                 <Table.Cell>{country}</Table.Cell>
                 <Table.Cell>{displayName}</Table.Cell>
-                <Table.Cell textAlign='right'><img src={image}/></Table.Cell>
+                <Table.Cell textAlign='right'><img src={image} alt="Dealers image"/></Table.Cell>
                 <Table.Cell textAlign='right'><a href={link}>{link}</a></Table.Cell>
             </Table.Row>
         </Table.Body>

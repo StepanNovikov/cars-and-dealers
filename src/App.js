@@ -9,14 +9,23 @@ import CarsList from "./json/cars"
 class App extends Component {
 
    state = {
-     filter: "",
+     filterCar: "",
+     filterModel:"",
      sorted: {},
    }
 
-  handleSelect = (event, {value}) =>{
+  handleSelectModel = (event, {value}) =>{
     this.setState({
-      filter: value.toLowerCase().split(" ").join("-") 
+      filterModel: value.toLowerCase().split(" ").join("-") 
     })
+    return value
+  };
+
+  handleSelectCar = (event, {value}) => {
+    this.setState({
+      filterCar: value
+    })
+    console.log(value)
     return value
   };
 
@@ -27,15 +36,47 @@ class App extends Component {
       })
     }
   }
+  
 
-  allModels = () => { 
+  allModels = (selectedCar = "") => { 
     const allModels = []
-    for(let i=0; i < CarsList.makes.length; i++){
-        for(let j = 0; j < CarsList.makes[i].models.length; j++ ){
-            allModels.push(CarsList.makes[i].models[j])
+    console.log(selectedCar)
+    switch(true) {
+      case selectedCar === "": 
+        for(let i=0; i < CarsList.makes.length; i++){
+          for(let j = 0; j < CarsList.makes[i].models.length; j++ ){
+              allModels.push(CarsList.makes[i].models[j])
+          }
         }
+        console.log(allModels)
+        break
+      case selectedCar !== "":
+        for(let i=0; i < CarsList.makes.length; i++){
+          if(CarsList.makes[i].displayName === selectedCar) {
+            for(let j = 0; j < CarsList.makes[i].models.length; j++ ){
+              allModels.push(CarsList.makes[i].models[j])
+          }
+          }
+        }
+        break
+      default:
+        console.log(selectedCar)
     }
+
     return allModels
+
+
+    // const allModels = []
+    // for(let i = 0; i < CarList.makes.lengthl; i++) {
+    //   if(typeof selectedCar !== undefined) {
+    //     if(CarList.makes[i].displayName === selectedCar) {
+    //       for(let j = 0; j < CarsList.makes[i].models.length; j++) {
+    //         allModels.push(CarsList.makes[i].models[j])
+    //       }
+    //     }
+    //   }
+    // }
+    // return allModels
     
 }
   
@@ -46,27 +87,13 @@ class App extends Component {
     return(
       <>
       <div className="filter">
-        <SelectCar value={this.value}/>
-        <ModelSelect allModels={this.allModels()} selectCar={this.handleSelect}/>
-        <button onClick={() => {this.handleClick(this.state.filter)}} className="color-button"><i className="search icon color-search"></i></button>
+        <SelectCar value={this.value} selectCar={this.handleSelectCar}/>
+        <ModelSelect allModels={this.allModels(this.state.filterCar)} selectModel={this.handleSelectModel}/>
+        <button onClick={() => {this.handleClick(this.state.filterModel)}} className="color-button"><i className="search icon color-search"></i></button>
       </div>
         
-      <table class="ui very basic collapsing celled table table-margin">
+      <table className="ui very basic collapsing celled table table-margin">
         {
-          // this.state.sorted !== {}? 
-          // Object.keys(this.state.models).map((keyObj) => {
-          //   return this.state.models[keyObj].countries.map((countryObj) => {
-          //     return countryObj.dealers.map((details, index) => {
-          //           return <CarList 
-          //                       key={index}
-          //                       country={countryObj.country} 
-          //                       image={details.image} 
-          //                       link={details.link}
-          //                       displayName={details.displayName}/>
-          //     })
-          //   })
-          // }) :
-          
           typeof this.state.sorted.countries !== "undefined"? 
           this.state.sorted.countries.map(countryObj => {
             return countryObj.dealers.map((details, index) => {
