@@ -40,7 +40,7 @@ class App extends Component {
 
   allModels = (selectedCar = "") => { 
     const allModels = []
-    console.log(selectedCar)
+    
     switch(true) {
       case selectedCar === "": 
         for(let i=0; i < CarsList.makes.length; i++){
@@ -48,7 +48,6 @@ class App extends Component {
               allModels.push(CarsList.makes[i].models[j])
           }
         }
-        console.log(allModels)
         break
       case selectedCar !== "":
         for(let i=0; i < CarsList.makes.length; i++){
@@ -59,24 +58,9 @@ class App extends Component {
           }
         }
         break
-      default:
-        console.log(selectedCar)
     }
 
     return allModels
-
-
-    // const allModels = []
-    // for(let i = 0; i < CarList.makes.lengthl; i++) {
-    //   if(typeof selectedCar !== undefined) {
-    //     if(CarList.makes[i].displayName === selectedCar) {
-    //       for(let j = 0; j < CarsList.makes[i].models.length; j++) {
-    //         allModels.push(CarsList.makes[i].models[j])
-    //       }
-    //     }
-    //   }
-    // }
-    // return allModels
     
 }
   
