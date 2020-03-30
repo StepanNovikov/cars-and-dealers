@@ -8,12 +8,16 @@ import CarsList from "./json/cars"
 
 class App extends Component {
 
-   state = {
-     filterCar: "",
-     filterModel:"",
-     sorted: {},
-   }
+  constructor(props) {
+    super(props)
 
+    this.state = {
+      filterCar: "",
+      filterModel:"",
+      sorted: {}
+    } 
+    console.log(this.state)
+  }
   handleSelectModel = (event, {value}) =>{
     this.setState({
       filterModel: value.toLowerCase().split(" ").join("-") 
@@ -25,7 +29,7 @@ class App extends Component {
     this.setState({
       filterCar: value
     })
-    console.log(value)
+    //console.log(value)
     return value
   };
 
@@ -40,33 +44,31 @@ class App extends Component {
 
   allModels = (selectedCar = "") => { 
     const allModels = []
-    
-    switch(true) {
-      case selectedCar === "": 
-        for(let i=0; i < CarsList.makes.length; i++){
-          for(let j = 0; j < CarsList.makes[i].models.length; j++ ){
-              allModels.push(CarsList.makes[i].models[j])
-          }
+
+    if(selectedCar === "") {
+      CarsList.makes.map(make => {
+        make.models.map(model => {
+          allModels.push(model)
+        })
+      })
+    } else {
+      CarsList.makes.map(make => {
+        if(make.displayName === selectedCar) {
+          make.models.map(model => {
+            allModels.push(model)
+          })
         }
-        break
-      case selectedCar !== "":
-        for(let i=0; i < CarsList.makes.length; i++){
-          if(CarsList.makes[i].displayName === selectedCar) {
-            for(let j = 0; j < CarsList.makes[i].models.length; j++ ){
-              allModels.push(CarsList.makes[i].models[j])
-          }
-          }
-        }
-        break
+      })
     }
 
     return allModels
     
 }
-  
 
   render() {
+    //console.log(this.state)
     Object.assign(this.state, Dealers)
+    // console.log(this.state)
     
     return(
       <>
